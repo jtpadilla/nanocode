@@ -1,8 +1,8 @@
-padilla@pedraalera:~/IdeaProjects/nanocode$ bazel run //java/agentic
+padilla@pedraalera:~/IdeaProjects/nanocode$ bazel run //java/agent/agentic
 INFO: Invocation ID: 0e754fc2-9f4c-43e4-a253-3859f7a0b7b3
-INFO: Analyzed target //java/agentic:agentic (112 packages loaded, 6844 targets configured).
+INFO: Analyzed target //java/agent/agentic:agentic (112 packages loaded, 6844 targets configured).
 INFO: Found 1 target...
-Target //java/agentic:agentic up-to-date:
+Target //java/agent/agentic:agentic up-to-date:
   bazel-bin/java/agentic/agentic
   bazel-bin/java/agentic/agentic.jar
 INFO: Elapsed time: 1.721s, Critical Path: 0.79s

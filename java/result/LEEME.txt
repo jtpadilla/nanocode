@@ -2,7 +2,7 @@ Este codigo es una prueba de concepto y esta basado en la prueba de concepto de:
 -> https://github.com/glaforge/nanocode
 
 He utilizado el Nanocode Agentico
--> //java/agentic
+-> //java/agent/agentic
 
 El agente utiliza la libreria:
 -> https://github.com/langchain4j/langchain4j

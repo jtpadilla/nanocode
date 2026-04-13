@@ -18,10 +18,12 @@ Que a su vez se apoya en el trabajo original de:
 ```
 nanocode/
 ├── java/
-│   ├── basic/      # Agente único con memoria de conversación
-│   ├── agentic/    # Sistema multi-agente con Supervisor
-│   ├── config/     # Configuración compartida (API key, modelo)
-│   ├── format/     # Utilidades de formato de salida en consola
+│   ├── agent/
+│   │   ├── basic/      # Agente único con memoria de conversación
+│   │   └── agentic/    # Sistema multi-agente con Supervisor
+│   ├── lib/
+│   │   ├── config/     # Configuración compartida (API key, modelo)
+│   │   └── format/     # Utilidades de formato de salida en consola
 │   └── result/     # Ejemplo: scraper de noticias UJI generado por el agente
 ├── MODULE.bazel    # Dependencias Maven gestionadas por Bazel
 └── .bazelversion   # Bazel 8.6.0
@@ -29,7 +31,7 @@ nanocode/
 
 ## Módulos
 
-### `//java/basic` — Agente simple
+### `//java/agent/basic` — Agente simple
 
 Agente conversacional con memoria de ventana (20 mensajes). Recibe instrucciones por teclado y ejecuta herramientas directamente.
 
@@ -46,7 +48,7 @@ Agente conversacional con memoria de ventana (20 mensajes). Recibe instrucciones
 | `websearch` | Busca en la web via Google Search |
 | `webfetch`  | Descarga y resume el contenido de una URL |
 
-### `//java/agentic` — Sistema multi-agente con Supervisor
+### `//java/agent/agentic` — Sistema multi-agente con Supervisor
 
 Implementa el patrón Supervisor + sub-agentes especializados usando `langchain4j-agentic`. El supervisor delega tareas al agente más adecuado según la naturaleza de la petición.
 
@@ -90,13 +92,13 @@ export MODEL=gemini-2.5-flash-preview-05-20
 ### Modo básico
 
 ```bash
-bazel run //java/basic
+bazel run //java/agent/basic
 ```
 
 ### Modo agentico
 
 ```bash
-bazel run //java/agentic
+bazel run //java/agent/agentic
 ```
 
 Ambos modos arrancan un REPL interactivo:

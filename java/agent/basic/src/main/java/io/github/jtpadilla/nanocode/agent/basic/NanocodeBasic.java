@@ -13,16 +13,16 @@
  */
 package io.github.jtpadilla.nanocode.agent.basic;
 
-import java.util.NoSuchElementException;
-import java.util.Scanner;
-
 import dev.langchain4j.memory.chat.MessageWindowChatMemory;
-import io.github.jtpadilla.nanocode.agent.basic.agents.Assistant;
-import io.github.jtpadilla.nanocode.lib.config.Config;
-import io.github.jtpadilla.nanocode.lib.format.Format;
 import dev.langchain4j.model.googleai.GoogleAiGeminiChatModel;
 import dev.langchain4j.service.AiServices;
+import io.github.jtpadilla.nanocode.agent.basic.agents.Assistant;
 import io.github.jtpadilla.nanocode.agent.basic.tools.Tools;
+import io.github.jtpadilla.nanocode.lib.config.Config;
+import io.github.jtpadilla.nanocode.lib.format.Format;
+
+import java.util.NoSuchElementException;
+import java.util.Scanner;
 
 /**
  * nanocode_basic - minimal CLI coding agent, powered by LangChain4j.

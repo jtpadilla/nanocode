@@ -13,14 +13,11 @@
  */
 package io.github.jtpadilla.nanocode.agent.agentic;
 
-import java.util.NoSuchElementException;
-import java.util.Scanner;
-
-import dev.langchain4j.model.googleai.GoogleAiGeminiChatModel;
 import dev.langchain4j.agentic.AgenticServices;
 import dev.langchain4j.agentic.scope.AgenticScopeAccess;
 import dev.langchain4j.agentic.supervisor.SupervisorAgent;
 import dev.langchain4j.agentic.supervisor.SupervisorResponseStrategy;
+import dev.langchain4j.model.googleai.GoogleAiGeminiChatModel;
 import io.github.jtpadilla.nanocode.agent.agentic.agents.FileAgent;
 import io.github.jtpadilla.nanocode.agent.agentic.agents.SystemAgent;
 import io.github.jtpadilla.nanocode.agent.agentic.agents.WebAgent;
@@ -29,6 +26,8 @@ import io.github.jtpadilla.nanocode.agent.agentic.tools.SystemTools;
 import io.github.jtpadilla.nanocode.agent.agentic.tools.WebTools;
 import io.github.jtpadilla.nanocode.lib.format.Format;
 
+import java.util.NoSuchElementException;
+import java.util.Scanner;
 
 import static io.github.jtpadilla.nanocode.lib.config.Config.GEMINI_KEY;
 import static io.github.jtpadilla.nanocode.lib.config.Config.MODEL_NAME;

@@ -1,0 +1,25 @@
+Este codigo es una prueba de concepto y esta basado en la prueba de concepto de:
+-> https://github.com/glaforge/nanocode
+
+He utilizado el Nanocode Agentico
+-> //java/agentic
+
+El agente utiliza la libreria:
+-> https://github.com/langchain4j/langchain4j
+
+Estoy utilizando acceso via API Key.
+
+En el fichero CONSOLA.txt se ve el prompt que he puesto y alguno mas entre medias
+y como los agentes van llamando a las tools...
+
+El codigo generado a necesitado una correccion muy ligera (que he hecho con Claude)
+y este en:
+-> //java/result
+
+El resultado de la ejecucion:
+-> RESULT.txt
+
+
+
+
+

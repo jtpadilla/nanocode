@@ -1,0 +1,7 @@
+bazel-*
+.ijwb
+.clwb
+.idea
+.project
+.~*
+/MODULE.bazel.lock

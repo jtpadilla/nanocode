@@ -1,0 +1,36 @@
+module(
+    name = "nanocode",
+    version = "0.1.0",
+)
+
+# Dependencias BAZEL
+bazel_dep(name = "rules_java", version = "9.6.1")
+bazel_dep(name = "rules_jvm_external", version = "6.10")
+
+# Dependencias MAVEN
+maven = use_extension("@rules_jvm_external//:extensions.bzl", "maven")
+maven.install(
+    boms = [
+        "dev.langchain4j:langchain4j-bom:1.13.0",
+        "org.slf4j:slf4j-bom:2.0.17",
+    ],
+    artifacts = [
+        ## LangChain4j (versión gestionada por el BOM)
+        "dev.langchain4j:langchain4j",
+        "dev.langchain4j:langchain4j-core",
+        "dev.langchain4j:langchain4j-google-ai-gemini",
+        ## Versión explícita — ciclo de releases beta independiente
+        "dev.langchain4j:langchain4j-agentic:1.13.0-beta23",
+
+        ## HTML parsing
+        "org.jsoup:jsoup:1.18.3",
+
+        ## Logging (versión gestionada por el BOM)
+        "org.slf4j:slf4j-api",
+        "org.slf4j:slf4j-simple",
+    ],
+    repositories = [
+        "https://repo1.maven.org/maven2",
+    ],
+)
+use_repo(maven, "maven")

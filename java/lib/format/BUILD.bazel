@@ -6,10 +6,5 @@ java_library(
     name = "format",
     srcs = glob(["src/main/java/**/*.java"]),
     deps = [
-        "@maven//:dev_langchain4j_langchain4j",
-        "@maven//:dev_langchain4j_langchain4j_core",
-        "@maven//:dev_langchain4j_langchain4j_google_ai_gemini",
-        "@maven//:org_slf4j_slf4j_api",
-        "@maven//:org_slf4j_slf4j_simple",
     ],
 )

@@ -1,4 +1,4 @@
-package com.example.sshconsole;
+package com.example.sshconsole.command;
 
 /**
  * Resultado de ejecutar un comando. Inmutable, sin dependencias de framework.

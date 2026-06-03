@@ -1,5 +1,9 @@
 package com.example.sshconsole;
 
+import com.example.sshconsole.command.CommandHandler;
+import com.example.sshconsole.command.DemoCommandHandler;
+import com.example.sshconsole.server.SshConsoleServer;
+
 import java.io.IOException;
 import java.util.Map;
 

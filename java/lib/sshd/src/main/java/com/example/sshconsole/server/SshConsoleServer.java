@@ -1,5 +1,7 @@
-package com.example.sshconsole;
+package com.example.sshconsole.server;
 
+import com.example.sshconsole.command.CommandHandler;
+import com.example.sshconsole.shell.InteractiveShell;
 import org.apache.sshd.common.keyprovider.ClassLoadableResourceKeyPairProvider;
 import org.apache.sshd.common.keyprovider.KeyPairProvider;
 import org.apache.sshd.server.SshServer;

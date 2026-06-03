@@ -1,4 +1,4 @@
-package com.example.sshconsole;
+package com.example.sshconsole.command;
 
 import java.util.List;
 
@@ -13,7 +13,7 @@ public interface CommandHandler {
      * Nunca debe lanzar excepciones de control de flujo: usa
      * {@link CommandResult#quit(String)} para cerrar la sesión.
      */
-    CommandResult execute(String who, String line);
+    com.example.sshconsole.command.CommandResult execute(String who, String line);
 
     /** Nombres de comandos disponibles, usados por JLine para autocompletar. */
     List<String> commandNames();

@@ -1,5 +1,7 @@
-package com.example.sshconsole;
+package com.example.sshconsole.shell;
 
+import com.example.sshconsole.command.CommandHandler;
+import com.example.sshconsole.command.CommandResult;
 import org.apache.sshd.server.Environment;
 import org.apache.sshd.server.ExitCallback;
 import org.apache.sshd.server.Signal;

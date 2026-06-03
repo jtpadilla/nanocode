@@ -1,7 +1,6 @@
 package com.example.sshconsole;
 
 import java.io.IOException;
-import java.nio.file.Path;
 import java.util.Map;
 
 public class Main {
@@ -11,7 +10,6 @@ public class Main {
 
         try (SshConsoleServer server = SshConsoleServer.builder(handler)
                 .port(2222)
-                .hostKey(Path.of("hostkey.ser"))
                 .passwordAuth(Map.of(
                         "admin", "secret",
                         "juan",  "rambla"))

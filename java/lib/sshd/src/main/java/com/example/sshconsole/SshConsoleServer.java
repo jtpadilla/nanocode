@@ -1,15 +1,13 @@
 package com.example.sshconsole;
 
+import org.apache.sshd.common.keyprovider.ClassLoadableResourceKeyPairProvider;
 import org.apache.sshd.common.keyprovider.KeyPairProvider;
 import org.apache.sshd.server.SshServer;
 import org.apache.sshd.server.auth.password.PasswordAuthenticator;
 import org.apache.sshd.server.auth.pubkey.PublickeyAuthenticator;
-import org.apache.sshd.server.keyprovider.SimpleGeneratorHostKeyProvider;
 import org.apache.sshd.server.shell.ShellFactory;
 
 import java.io.IOException;
-import java.nio.file.Path;
-import java.security.PublicKey;
 import java.util.Map;
 
 /**
@@ -44,7 +42,6 @@ public class SshConsoleServer implements AutoCloseable {
     public static final class Builder {
         private final CommandHandler handler;
         private int port = 2222;
-        private Path hostKeyPath = Path.of("hostkey.ser");
         private PasswordAuthenticator passwordAuth;
         private PublickeyAuthenticator publicKeyAuth;
 
@@ -54,11 +51,6 @@ public class SshConsoleServer implements AutoCloseable {
 
         public Builder port(int port) {
             this.port = port;
-            return this;
-        }
-
-        public Builder hostKey(Path path) {
-            this.hostKeyPath = path;
             return this;
         }
 
@@ -79,8 +71,11 @@ public class SshConsoleServer implements AutoCloseable {
             SshServer sshd = SshServer.setUpDefaultServer();
             sshd.setPort(port);
 
-            // Clave de host: en producción usa una persistente y versiónala fuera del repo.
-            KeyPairProvider hostKeys = new SimpleGeneratorHostKeyProvider(hostKeyPath);
+            // Clave de host fija, embebida como recurso del classpath (hostkey.pem).
+            // Así el fingerprint es estable entre ejecuciones de `bazel run`.
+            // NOTA: la clave privada va en el repo/jar; vale para demo, no para producción.
+            KeyPairProvider hostKeys = new ClassLoadableResourceKeyPairProvider(
+                    SshConsoleServer.class.getClassLoader(), "hostkey.pem");
             sshd.setKeyPairProvider(hostKeys);
 
             if (passwordAuth != null) {

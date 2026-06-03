@@ -8,6 +8,8 @@ java_library(
         ["src/main/java/**/*.java"],
         exclude = ["src/main/java/**/Main.java"],
     ),
+    resources = ["src/main/resources/hostkey.pem"],
+    resource_strip_prefix = "java/lib/sshd/src/main/resources",
     deps = [
         "@maven//:org_apache_sshd_sshd_common",
         "@maven//:org_apache_sshd_sshd_core",

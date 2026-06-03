@@ -1,9 +1,12 @@
 package com.example.sshconsole.command;
 
+import io.helidon.service.registry.Service;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
+@Service.Singleton
 public class DemoCommandHandler implements com.example.sshconsole.command.CommandHandler {
 
     private static final List<String> COMMANDS =

@@ -13,6 +13,7 @@ maven.install(
     boms = [
         "dev.langchain4j:langchain4j-bom:1.13.0",
         "org.slf4j:slf4j-bom:2.0.17",
+        "io.helidon:helidon-bom:4.4.1",
     ],
     artifacts = [
         ## LangChain4j (versión gestionada por el BOM)
@@ -28,6 +29,15 @@ maven.install(
         ## SSH server + terminal line editing
         "org.apache.sshd:sshd-core:2.15.0",
         "org.jline:jline:3.30.4",
+
+        ## Helidon Service Registry (DI + ciclo de vida; versiones por el BOM)
+        "io.helidon.service:helidon-service-registry",
+        # Tipos usados por los descriptores generados (strict deps de Bazel)
+        "io.helidon.common:helidon-common",
+        "io.helidon.common:helidon-common-types",
+        # Procesadores de anotaciones (generan descriptores en compilación)
+        "io.helidon.codegen:helidon-codegen-apt",
+        "io.helidon.service:helidon-service-codegen",
 
         ## Logging (versión gestionada por el BOM)
         "org.slf4j:slf4j-api",

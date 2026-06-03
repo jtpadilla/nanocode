@@ -1,27 +1,22 @@
 package com.example.sshconsole;
 
-import com.example.sshconsole.command.CommandHandler;
-import com.example.sshconsole.command.DemoCommandHandler;
-import com.example.sshconsole.server.SshConsoleServer;
-
-import java.io.IOException;
-import java.util.Map;
+import io.helidon.service.registry.ServiceRegistryManager;
 
 public class Main {
 
-    public static void main(String[] args) throws IOException, InterruptedException {
-        CommandHandler handler = new DemoCommandHandler();
+    public static void main(String[] args) throws InterruptedException {
+        // Arranca el Service Registry de Helidon: instancia de forma eager los
+        // servicios con @Service.RunLevel. Entre ellos SshServerService, que en
+        // su @PostConstruct levanta el servidor SSH.
+        ServiceRegistryManager manager = ServiceRegistryManager.start();
 
-        try (SshConsoleServer server = SshConsoleServer.builder(handler)
-                .port(2222)
-                .passwordAuth(Map.of(
-                        "admin", "secret",
-                        "juan",  "rambla"))
-                .build()) {
+        // Parada ordenada ante Ctrl-C / SIGTERM: shutdown() dispara los
+        // @PreDestroy (SshServerService detiene el servidor).
+        Runtime.getRuntime().addShutdownHook(
+                new Thread(manager::shutdown, "registry-shutdown"));
 
-            server.start();
-            System.out.println("SSH escuchando en el puerto " + server.port());
-            Thread.currentThread().join();
-        }
+        // El registro y el servidor viven en hilos propios; mantenemos vivo el
+        // proceso hasta que llegue la señal de parada.
+        Thread.currentThread().join();
     }
 }

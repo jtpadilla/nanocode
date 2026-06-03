@@ -1,0 +1,27 @@
+load("@rules_java//java:defs.bzl", "java_binary", "java_library")
+
+package(default_visibility = ["//visibility:public"])
+
+java_library(
+    name = "sshd",
+    srcs = glob(
+        ["src/main/java/**/*.java"],
+        exclude = ["src/main/java/**/Main.java"],
+    ),
+    deps = [
+        "@maven//:org_apache_sshd_sshd_common",
+        "@maven//:org_apache_sshd_sshd_core",
+        "@maven//:org_jline_jline",
+        "@maven//:org_slf4j_slf4j_api",
+    ],
+)
+
+java_binary(
+    name = "demo",
+    srcs = ["src/main/java/com/example/sshconsole/Main.java"],
+    main_class = "com.example.sshconsole.Main",
+    deps = [
+        ":sshd",
+        "@maven//:org_slf4j_slf4j_simple",
+    ],
+)

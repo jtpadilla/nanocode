@@ -25,6 +25,10 @@ maven.install(
         ## HTML parsing
         "org.jsoup:jsoup:1.18.3",
 
+        ## SSH server + terminal line editing
+        "org.apache.sshd:sshd-core:2.15.0",
+        "org.jline:jline:3.30.4",
+
         ## Logging (versión gestionada por el BOM)
         "org.slf4j:slf4j-api",
         "org.slf4j:slf4j-simple",

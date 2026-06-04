@@ -20,7 +20,7 @@ bazel build //...
 bazel build //java/agent/basic
 ```
 
-Both binaries require `GOOGLE_AI_GEMINI_API_KEY` (or `GEMINI_API_KEY`) in the environment. `MODEL` overrides the default `gemini-3-flash-preview` (see `java/agent/config/.../Config.java`).
+Both binaries require `GOOGLE_AI_GEMINI_API_KEY` (or `GEMINI_API_KEY`) in the environment. `MODEL` overrides the default `gemini-3-flash-preview` (see `java/agent/lib/config/.../Config.java`).
 
 There are no tests yet; `bazel test //...` is a no-op.
 
@@ -28,7 +28,7 @@ The disk cache is shared with the IDE at `~/.cache/nanocode-cache` (`.bazelrc`),
 
 ## Architecture
 
-Two parallel entry points share `//java/agent/config` (env-var reading) and `//java/agent/format` (ANSI colors + a tiny markdown-to-ANSI renderer used to print agent responses). Each entry point lives in its own Bazel package under `//java/agent/...`, and each package owns a `tools/` directory of `@Tool`-annotated methods plus an `agents/` directory of LangChain4j `AiServices` interfaces.
+Two parallel entry points share `//java/agent/lib/config` (env-var reading) and `//java/agent/lib/format` (ANSI colors + a tiny markdown-to-ANSI renderer used to print agent responses). Each entry point lives in its own Bazel package under `//java/agent/...`, and each package owns a `tools/` directory of `@Tool`-annotated methods plus an `agents/` directory of LangChain4j `AiServices` interfaces.
 
 **`//java/agent/basic` — single agent.** `NanocodeBasic.main` wires one `GoogleAiGeminiChatModel` to the `Assistant` interface via `AiServices.builder(...).chatMemory(MessageWindowChatMemory).tools(new Tools(...))`. The `Assistant` interface is just `@SystemMessage` + `@UserMessage` — LangChain4j generates the implementation and routes tool calls into `Tools` (read/write/edit/glob/grep/bash/websearch/webfetch). `websearch` and `webfetch` spin up *separate* Gemini models with `allowGoogleSearch` / `allowUrlContext` enabled rather than going through the main model.
 

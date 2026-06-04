@@ -1,13 +1,13 @@
 package io.github.jtpadilla.sshdagent.service.auth;
 
-import io.github.jtpadilla.sshdagent.server.adapter.ServicePasswordAuthenticator;
+import io.github.jtpadilla.sshdagent.server.adapter.PasswordAuthenticatorAdapter;
 import io.helidon.service.registry.Service;
 
 /**
  * Contrato de verificación de credenciales. Es el seam por el que, en el futuro,
  * la autenticación SSH se resolverá mediante un servicio externo de gestión de
  * usuarios y credenciales (LDAP, base de datos, servicio remoto, etc.) sin tocar
- * ni el {@link ServicePasswordAuthenticator} ni el servidor.
+ * ni el {@link PasswordAuthenticatorAdapter} ni el servidor.
  *
  * <p>{@code @Service.Contract} lo hace inyectable desde el Service Registry:
  * cualquier {@code @Service.Singleton} que lo implemente queda disponible bajo

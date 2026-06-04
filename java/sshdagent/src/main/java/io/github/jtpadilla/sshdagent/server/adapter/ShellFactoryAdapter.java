@@ -16,12 +16,12 @@ import java.io.IOException;
  * {@code DemoCommandHandler}).
  */
 @Service.Singleton
-public class ServiceShellFactory implements ShellFactory {
+public class ShellFactoryAdapter implements ShellFactory {
 
     final private CommandHandler commandHandler;
 
     @Service.Inject
-    public ServiceShellFactory(CommandHandler commandHandler) {
+    public ShellFactoryAdapter(CommandHandler commandHandler) {
         this.commandHandler = commandHandler;
     }
 

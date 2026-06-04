@@ -12,12 +12,12 @@ import org.apache.sshd.server.session.ServerSession;
  * (demo, LDAP, BD, servicio remoto) no requiere tocar esta clase.
  */
 @Service.Singleton
-public class ServicePasswordAuthenticator implements PasswordAuthenticator {
+public class PasswordAuthenticatorAdapter implements PasswordAuthenticator {
 
     private final CredentialService credentials;
 
     @Service.Inject
-    public ServicePasswordAuthenticator(CredentialService credentials) {
+    public PasswordAuthenticatorAdapter(CredentialService credentials) {
         this.credentials = credentials;
     }
 

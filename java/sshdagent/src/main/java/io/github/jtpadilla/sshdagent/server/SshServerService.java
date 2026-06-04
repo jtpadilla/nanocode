@@ -3,9 +3,11 @@ package io.github.jtpadilla.sshdagent.server;
 import io.github.jtpadilla.sshdagent.service.command.CommandHandler;
 import io.github.jtpadilla.sshdagent.server.impl.SshConsoleConfig;
 import io.github.jtpadilla.sshdagent.server.impl.SshConsoleInstance;
-import io.github.jtpadilla.sshdagent.server.adapter.ServicePasswordAuthenticator;
-import io.github.jtpadilla.sshdagent.server.adapter.ServiceShellFactory;
+import io.github.jtpadilla.sshdagent.server.adapter.PasswordAuthenticatorAdapter;
+import io.github.jtpadilla.sshdagent.server.adapter.ShellFactoryAdapter;
 import io.helidon.service.registry.Service;
+import org.apache.sshd.common.keyprovider.ClassLoadableResourceKeyPairProvider;
+import org.apache.sshd.common.keyprovider.KeyPairProvider;
 
 import java.io.IOException;
 import java.io.UncheckedIOException;
@@ -17,7 +19,7 @@ import java.io.UncheckedIOException;
  * {@code @Service.PostConstruct} y lo detiene en el {@code @Service.PreDestroy}
  * cuando el registro se apaga.
  *
- * <p>El {@link CommandHandler} y el {@link ServicePasswordAuthenticator} llegan
+ * <p>El {@link CommandHandler} y el {@link PasswordAuthenticatorAdapter} llegan
  * por inyección de constructor desde el registro (los aportan
  * {@code DemoCommandHandler} y {@code DemoCredentialService} respectivamente).
  */
@@ -29,8 +31,14 @@ class SshServerService {
     private SshConsoleInstance server;
 
     @Service.Inject
-    SshServerService(ServicePasswordAuthenticator passwordAuth, ServiceShellFactory serviceShellFactory) {
-        this.config = SshConsoleConfig.builder(passwordAuth, serviceShellFactory)
+    SshServerService(PasswordAuthenticatorAdapter passwordAuthenticatorAdapter, ShellFactoryAdapter shellFactoryAdapter) {
+
+        final KeyPairProvider keyPairProvider = new ClassLoadableResourceKeyPairProvider(
+                SshConsoleInstance.class.getClassLoader(),
+                "hostkey.pem"
+        );
+
+        this.config = SshConsoleConfig.builder(keyPairProvider, passwordAuthenticatorAdapter, shellFactoryAdapter)
                 .port(2222)
                 .build();
     }

@@ -28,14 +28,8 @@ public class SshConsoleInstance {
         // Se instala el verificador de credenciales
         sshd.setPasswordAuthenticator(config.passwordAuth());
 
-        // Clave de host fija, embebida como recurso del classpath (hostkey.pem).
-        // Así el fingerprint es estable entre ejecuciones de `bazel run`.
-        // NOTA: la clave privada va en el repo/jar; vale para demo, no para producción.
-        final KeyPairProvider hostKeys = new ClassLoadableResourceKeyPairProvider(
-                SshConsoleInstance.class.getClassLoader(),
-                "hostkey.pem"
-        );
-        sshd.setKeyPairProvider(hostKeys);
+        // Se instala el proveedro de claves
+        sshd.setKeyPairProvider(config.getKeyPairProvider());
 
         // Se instala el factory de sesiones
         sshd.setShellFactory(config.shellFactory());

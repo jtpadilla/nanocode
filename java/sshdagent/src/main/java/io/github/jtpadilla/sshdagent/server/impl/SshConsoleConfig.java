@@ -1,5 +1,6 @@
 package io.github.jtpadilla.sshdagent.server.impl;
 
+import org.apache.sshd.common.keyprovider.KeyPairProvider;
 import org.apache.sshd.server.auth.password.PasswordAuthenticator;
 import org.apache.sshd.server.shell.ShellFactory;
 
@@ -16,23 +17,28 @@ public final class SshConsoleConfig {
      * modo que se exigen al abrir el builder. El puerto es opcional ({@link
      * Builder#port(int)}) y por defecto vale 2222.
      */
-    public static Builder builder(PasswordAuthenticator passwordAuth, ShellFactory shellFactory) {
-        return new Builder(passwordAuth, shellFactory);
+    public static Builder builder(KeyPairProvider keyPairProvider, PasswordAuthenticator passwordAuth, ShellFactory shellFactory) {
+        return new Builder(keyPairProvider, passwordAuth, shellFactory);
     }
 
     public static final class Builder {
 
+        private final KeyPairProvider keyPairProvider;
         private final PasswordAuthenticator passwordAuth;
         private final ShellFactory shellFactory;
         private int port = 2222;
 
-        private Builder(PasswordAuthenticator passwordAuth, ShellFactory shellFactory) {
+        private Builder(KeyPairProvider keyPairProvider, PasswordAuthenticator passwordAuth, ShellFactory shellFactory) {
+            if (keyPairProvider == null) {
+                throw new IllegalArgumentException("Configura el proveedor e claves.");
+            }
             if (passwordAuth == null) {
                 throw new IllegalArgumentException("Configura el autenticador de password.");
             }
             if (shellFactory == null) {
                 throw new IllegalArgumentException("Configura el factory de sesiones.");
             }
+            this.keyPairProvider = keyPairProvider;
             this.passwordAuth = passwordAuth;
             this.shellFactory = shellFactory;
         }
@@ -43,22 +49,29 @@ public final class SshConsoleConfig {
         }
 
         public SshConsoleConfig build() {
-            return new SshConsoleConfig(port, passwordAuth, shellFactory);
+            return new SshConsoleConfig(port, keyPairProvider, passwordAuth, shellFactory);
         }
+
     }
 
     private final int port;
+    private final KeyPairProvider keyPairProvider;
     private final PasswordAuthenticator passwordAuth;
     private final ShellFactory shellFactory;
 
-    private SshConsoleConfig(int port, PasswordAuthenticator passwordAuth, ShellFactory shellFactory) {
+    private SshConsoleConfig(int port, KeyPairProvider keyPairProvider, PasswordAuthenticator passwordAuth, ShellFactory shellFactory) {
         this.port = port;
+        this.keyPairProvider = keyPairProvider;
         this.passwordAuth = passwordAuth;
         this.shellFactory = shellFactory;
     }
 
     public int port() {
         return port;
+    }
+
+    public KeyPairProvider getKeyPairProvider() {
+        return keyPairProvider;
     }
 
     public PasswordAuthenticator passwordAuth() {

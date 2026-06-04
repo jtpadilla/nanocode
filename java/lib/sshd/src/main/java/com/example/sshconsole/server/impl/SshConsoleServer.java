@@ -1,4 +1,4 @@
-package com.example.sshconsole.server;
+package com.example.sshconsole.server.impl;
 
 import com.example.sshconsole.command.CommandHandler;
 import com.example.sshconsole.shell.InteractiveShell;
@@ -6,17 +6,75 @@ import org.apache.sshd.common.keyprovider.ClassLoadableResourceKeyPairProvider;
 import org.apache.sshd.common.keyprovider.KeyPairProvider;
 import org.apache.sshd.server.SshServer;
 import org.apache.sshd.server.auth.password.PasswordAuthenticator;
-import org.apache.sshd.server.auth.pubkey.PublickeyAuthenticator;
 import org.apache.sshd.server.shell.ShellFactory;
 
 import java.io.IOException;
-import java.util.Map;
 
 /**
  * Servidor SSH embebido. Construye con el builder para configurarlo
  * programáticamente; sin anotaciones ni magia de framework.
  */
 public class SshConsoleServer implements AutoCloseable {
+
+    public static Builder builder(CommandHandler handler) {
+        return new Builder(handler);
+    }
+
+    public static final class Builder {
+
+        private final CommandHandler handler;
+        private int port = 2222;
+        private PasswordAuthenticator passwordAuth;
+
+        private Builder(CommandHandler handler) {
+            this.handler = handler;
+        }
+
+        public Builder port(int port) {
+            this.port = port;
+            return this;
+        }
+
+        /**
+         * Autenticación por usuario/contraseña delegada en un
+         * {@link PasswordAuthenticator} externo (p. ej. uno que consulte un
+         * servicio de credenciales inyectado).
+         */
+        public Builder passwordAuth(PasswordAuthenticator auth) {
+            this.passwordAuth = auth;
+            return this;
+        }
+
+        public SshConsoleServer build() {
+
+            // Se crea un SshServer con los valores por defecto.
+            SshServer sshd = SshServer.setUpDefaultServer();
+
+            // Se configura el puerto por donde escuchara
+            sshd.setPort(port);
+
+            // Se instsla el verificador de credenciales
+            if (passwordAuth == null) {
+                throw new IllegalStateException("Configura el autenticador de password.");
+            }
+            sshd.setPasswordAuthenticator(passwordAuth);
+
+            // Clave de host fija, embebida como recurso del classpath (hostkey.pem).
+            // Así el fingerprint es estable entre ejecuciones de `bazel run`.
+            // NOTA: la clave privada va en el repo/jar; vale para demo, no para producción.
+            final KeyPairProvider hostKeys = new ClassLoadableResourceKeyPairProvider(
+                    SshConsoleServer.class.getClassLoader(),
+                    "hostkey.pem"
+            );
+            sshd.setKeyPairProvider(hostKeys);
+
+            // Una sesión interactiva por canal de shell.
+            ShellFactory shellFactory = channel -> new InteractiveShell(handler);
+            sshd.setShellFactory(shellFactory);
+
+            return new SshConsoleServer(sshd);
+        }
+    }
 
     private final SshServer sshd;
 
@@ -37,65 +95,4 @@ public class SshConsoleServer implements AutoCloseable {
         sshd.stop(true);
     }
 
-    public static Builder builder(CommandHandler handler) {
-        return new Builder(handler);
-    }
-
-    public static final class Builder {
-        private final CommandHandler handler;
-        private int port = 2222;
-        private PasswordAuthenticator passwordAuth;
-        private PublickeyAuthenticator publicKeyAuth;
-
-        private Builder(CommandHandler handler) {
-            this.handler = handler;
-        }
-
-        public Builder port(int port) {
-            this.port = port;
-            return this;
-        }
-
-        /** Autenticación por usuario/contraseña. */
-        public Builder passwordAuth(Map<String, String> userPasswords) {
-            this.passwordAuth = (user, password, session) ->
-                    password != null && password.equals(userPasswords.get(user));
-            return this;
-        }
-
-        /** Autenticación por clave pública. Tú decides la política. */
-        public Builder publicKeyAuth(PublickeyAuthenticator auth) {
-            this.publicKeyAuth = auth;
-            return this;
-        }
-
-        public SshConsoleServer build() {
-            SshServer sshd = SshServer.setUpDefaultServer();
-            sshd.setPort(port);
-
-            // Clave de host fija, embebida como recurso del classpath (hostkey.pem).
-            // Así el fingerprint es estable entre ejecuciones de `bazel run`.
-            // NOTA: la clave privada va en el repo/jar; vale para demo, no para producción.
-            KeyPairProvider hostKeys = new ClassLoadableResourceKeyPairProvider(
-                    SshConsoleServer.class.getClassLoader(), "hostkey.pem");
-            sshd.setKeyPairProvider(hostKeys);
-
-            if (passwordAuth != null) {
-                sshd.setPasswordAuthenticator(passwordAuth);
-            }
-            if (publicKeyAuth != null) {
-                sshd.setPublickeyAuthenticator(publicKeyAuth);
-            }
-            if (passwordAuth == null && publicKeyAuth == null) {
-                throw new IllegalStateException(
-                        "Configura al menos un autenticador (password o publicKey).");
-            }
-
-            // Una sesión interactiva por canal de shell.
-            ShellFactory shellFactory = channel -> new InteractiveShell(handler);
-            sshd.setShellFactory(shellFactory);
-
-            return new SshConsoleServer(sshd);
-        }
-    }
 }

@@ -1,11 +1,11 @@
 package com.example.sshconsole.server;
 
 import com.example.sshconsole.command.CommandHandler;
+import com.example.sshconsole.server.impl.SshConsoleServer;
 import io.helidon.service.registry.Service;
 
 import java.io.IOException;
 import java.io.UncheckedIOException;
-import java.util.Map;
 
 /**
  * Servicio gestionado por el Service Registry de Helidon. El registro controla
@@ -14,8 +14,9 @@ import java.util.Map;
  * {@code @Service.PostConstruct} y lo detiene en el {@code @Service.PreDestroy}
  * cuando el registro se apaga.
  *
- * <p>El {@link CommandHandler} llega por inyección de constructor desde el
- * registro (lo aporta {@code DemoCommandHandler}).
+ * <p>El {@link CommandHandler} y el {@link ServicePasswordAuthenticator} llegan
+ * por inyección de constructor desde el registro (los aportan
+ * {@code DemoCommandHandler} y {@code DemoCredentialService} respectivamente).
  */
 @Service.Singleton
 @Service.RunLevel(Service.RunLevel.SERVER)
@@ -24,12 +25,10 @@ class SshServerService {
     private final SshConsoleServer server;
 
     @Service.Inject
-    SshServerService(CommandHandler handler) {
+    SshServerService(CommandHandler handler, ServicePasswordAuthenticator passwordAuth) {
         this.server = SshConsoleServer.builder(handler)
                 .port(2222)
-                .passwordAuth(Map.of(
-                        "admin", "secret",
-                        "juan", "rambla"))
+                .passwordAuth(passwordAuth)
                 .build();
     }
 

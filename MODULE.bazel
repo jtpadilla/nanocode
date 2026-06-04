@@ -27,8 +27,8 @@ maven.install(
         "org.jsoup:jsoup:1.18.3",
 
         ## SSH server + terminal line editing
-        "org.apache.sshd:sshd-core:2.15.0",
-        "org.jline:jline:3.30.4",
+        "org.apache.sshd:sshd-core:2.18.0",
+        "org.jline:jline:4.1.3",
 
         ## Helidon Service Registry (DI + ciclo de vida; versiones por el BOM)
         "io.helidon.service:helidon-service-registry",

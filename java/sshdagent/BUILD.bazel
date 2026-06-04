@@ -38,8 +38,8 @@ java_library(
 
 java_binary(
     name = "demo",
-    srcs = ["src/main/java/com/example/sshconsole/Main.java"],
-    main_class = "com.example.sshconsole.Main",
+    srcs = ["src/main/java/io/github/jtpadilla/sshdagent/Main.java"],
+    main_class = "io.github.jtpadilla.sshdagent.Main",
     deps = [
         ":sshd",
         "@maven//:io_helidon_service_helidon_service_registry",

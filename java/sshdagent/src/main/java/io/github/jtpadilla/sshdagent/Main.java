@@ -1,4 +1,4 @@
-package com.example.sshconsole;
+package io.github.jtpadilla.sshdagent;
 
 import io.helidon.service.registry.ServiceRegistryManager;
 

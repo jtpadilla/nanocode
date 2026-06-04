@@ -20,7 +20,7 @@ bazel build //...
 bazel build //java/agent/basic
 ```
 
-Both binaries require `GOOGLE_AI_GEMINI_API_KEY` (or `GEMINI_API_KEY`) in the environment. `MODEL` overrides the default `gemini-3-flash-preview` (see `java/lib/config/.../Config.java`).
+Both binaries require `GOOGLE_AI_GEMINI_API_KEY` (or `GEMINI_API_KEY`) in the environment. `MODEL` overrides the default `gemini-3-flash-preview` (see `java/agent/config/.../Config.java`).
 
 There are no tests yet; `bazel test //...` is a no-op.
 
@@ -28,7 +28,7 @@ The disk cache is shared with the IDE at `~/.cache/nanocode-cache` (`.bazelrc`),
 
 ## Architecture
 
-Two parallel entry points share `//java/lib/config` (env-var reading) and `//java/lib/format` (ANSI colors + a tiny markdown-to-ANSI renderer used to print agent responses). Each entry point lives in its own Bazel package under `//java/agent/...`, and each package owns a `tools/` directory of `@Tool`-annotated methods plus an `agents/` directory of LangChain4j `AiServices` interfaces.
+Two parallel entry points share `//java/agent/config` (env-var reading) and `//java/agent/format` (ANSI colors + a tiny markdown-to-ANSI renderer used to print agent responses). Each entry point lives in its own Bazel package under `//java/agent/...`, and each package owns a `tools/` directory of `@Tool`-annotated methods plus an `agents/` directory of LangChain4j `AiServices` interfaces.
 
 **`//java/agent/basic` — single agent.** `NanocodeBasic.main` wires one `GoogleAiGeminiChatModel` to the `Assistant` interface via `AiServices.builder(...).chatMemory(MessageWindowChatMemory).tools(new Tools(...))`. The `Assistant` interface is just `@SystemMessage` + `@UserMessage` — LangChain4j generates the implementation and routes tool calls into `Tools` (read/write/edit/glob/grep/bash/websearch/webfetch). `websearch` and `webfetch` spin up *separate* Gemini models with `allowGoogleSearch` / `allowUrlContext` enabled rather than going through the main model.
 
@@ -38,9 +38,7 @@ Two parallel entry points share `//java/lib/config` (env-var reading) and `//jav
 
 **Subtle gotcha — `main_class` paths in BUILD files.** `java/agent/basic/BUILD.bazel` declares `main_class = "io.github.jtpadilla.nanocode.basic.NanocodeBasic"` and the agentic one declares `io.github.jtpadilla.nanocode.agentic.NanocodeAgentic`, but the actual Java packages are `io.github.jtpadilla.nanocode.agent.basic` / `io.github.jtpadilla.nanocode.agent.agentic` (with `.agent.` in the middle). If you change main classes or rename packages, fix both sides.
 
-**`//java/result`** is sample output the agent produced (a UJI news scraper) — it has its own `Main` and `jsoup` dep but is not wired into the agents and can be ignored unless you're touching the demo.
-
-**`//java/sshdagent`** is an embedded SSH console (Apache MINA SSHD) wired through the Helidon 4.x Service Registry: `@Service.*`-annotated classes (`SshServerService`, `ServicePasswordAuthenticator`, `ServiceShellFactory`, `DemoCredentialService`, `DemoCommandHandler`) are discovered at compile time by the `helidon_codegen` `java_plugin`. The `sshd` library holds the server; the `demo` binary (`com.example.sshconsole.Main`) boots the registry and listens on port 2222. Not wired into the agents above.
+**`//java/sshdagent`** is an embedded SSH console (Apache MINA SSHD) wired through the Helidon 4.x Service Registry: `@Service.*`-annotated classes (`SshServerService`, `ServicePasswordAuthenticator`, `ServiceShellFactory`, `DemoCredentialService`, `DemoCommandHandler`) are discovered at compile time by the `helidon_codegen` `java_plugin`. The `sshd` library holds the server; the `demo` binary (`io.github.jtpadilla.sshdagent.Main`) boots the registry and listens on port 2222. Not wired into the agents above.
 
 ## Dependency management
 

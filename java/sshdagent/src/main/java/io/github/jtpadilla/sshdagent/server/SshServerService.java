@@ -1,10 +1,10 @@
-package com.example.sshconsole.server;
+package io.github.jtpadilla.sshdagent.server;
 
-import com.example.sshconsole.command.CommandHandler;
-import com.example.sshconsole.server.impl.SshConsoleConfig;
-import com.example.sshconsole.server.impl.SshConsoleInstance;
-import com.example.sshconsole.server.localservice.ServicePasswordAuthenticator;
-import com.example.sshconsole.server.localservice.ServiceShellFactory;
+import io.github.jtpadilla.sshdagent.command.CommandHandler;
+import io.github.jtpadilla.sshdagent.server.impl.SshConsoleConfig;
+import io.github.jtpadilla.sshdagent.server.impl.SshConsoleInstance;
+import io.github.jtpadilla.sshdagent.server.localservice.ServicePasswordAuthenticator;
+import io.github.jtpadilla.sshdagent.server.localservice.ServiceShellFactory;
 import io.helidon.service.registry.Service;
 
 import java.io.IOException;

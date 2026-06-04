@@ -60,14 +60,6 @@ Implementa el patrón Supervisor + sub-agentes especializados usando `langchain4
 | `SystemAgent`   | Ejecución de comandos de shell (`bash`)       |
 | `WebAgent`      | Búsqueda web y descarga de URLs               |
 
-### `//java/result` — Ejemplo de uso
-
-Código Java generado por el propio agente agentico en respuesta al prompt:
-
-> _"Quiero que me generes el código Java para hacer un scraping de las noticias de la página www.uji.es y tienes que entregarme los resultados en una Lista de Records Java"_
-
-El resultado (`Scraper`, `UjiScraper`, `Noticia`, `Main`) requirió únicamente una corrección menor.
-
 ## Requisitos
 
 - Java 21+

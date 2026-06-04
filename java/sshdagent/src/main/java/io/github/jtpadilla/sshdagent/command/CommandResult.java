@@ -1,4 +1,4 @@
-package com.example.sshconsole.command;
+package io.github.jtpadilla.sshdagent.command;
 
 /**
  * Resultado de ejecutar un comando. Inmutable, sin dependencias de framework.

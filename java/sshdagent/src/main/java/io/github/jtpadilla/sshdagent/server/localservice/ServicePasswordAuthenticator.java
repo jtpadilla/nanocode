@@ -1,6 +1,6 @@
-package com.example.sshconsole.server.localservice;
+package io.github.jtpadilla.sshdagent.server.localservice;
 
-import com.example.sshconsole.auth.CredentialService;
+import io.github.jtpadilla.sshdagent.auth.CredentialService;
 import io.helidon.service.registry.Service;
 import org.apache.sshd.server.auth.password.PasswordAuthenticator;
 import org.apache.sshd.server.session.ServerSession;

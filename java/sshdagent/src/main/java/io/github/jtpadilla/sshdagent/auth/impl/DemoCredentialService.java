@@ -1,6 +1,6 @@
-package com.example.sshconsole.auth.impl;
+package io.github.jtpadilla.sshdagent.auth.impl;
 
-import com.example.sshconsole.auth.CredentialService;
+import io.github.jtpadilla.sshdagent.auth.CredentialService;
 import io.helidon.service.registry.Service;
 
 import java.util.Map;

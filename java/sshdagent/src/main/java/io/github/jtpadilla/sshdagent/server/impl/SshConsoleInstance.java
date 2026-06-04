@@ -1,4 +1,4 @@
-package com.example.sshconsole.server.impl;
+package io.github.jtpadilla.sshdagent.server.impl;
 
 import org.apache.sshd.common.keyprovider.ClassLoadableResourceKeyPairProvider;
 import org.apache.sshd.common.keyprovider.KeyPairProvider;

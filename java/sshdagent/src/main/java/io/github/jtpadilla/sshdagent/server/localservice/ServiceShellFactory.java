@@ -1,7 +1,7 @@
-package com.example.sshconsole.server.localservice;
+package io.github.jtpadilla.sshdagent.server.localservice;
 
-import com.example.sshconsole.command.CommandHandler;
-import com.example.sshconsole.shell.InteractiveShell;
+import io.github.jtpadilla.sshdagent.command.CommandHandler;
+import io.github.jtpadilla.sshdagent.shell.InteractiveShell;
 import io.helidon.service.registry.Service;
 import org.apache.sshd.server.channel.ChannelSession;
 import org.apache.sshd.server.command.Command;

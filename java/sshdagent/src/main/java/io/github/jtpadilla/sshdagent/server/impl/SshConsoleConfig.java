@@ -1,4 +1,4 @@
-package com.example.sshconsole.server.impl;
+package io.github.jtpadilla.sshdagent.server.impl;
 
 import org.apache.sshd.server.auth.password.PasswordAuthenticator;
 import org.apache.sshd.server.shell.ShellFactory;

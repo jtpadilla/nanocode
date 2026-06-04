@@ -1,4 +1,4 @@
-package com.example.sshconsole.command;
+package io.github.jtpadilla.sshdagent.command;
 
 import io.helidon.service.registry.Service;
 
@@ -7,16 +7,16 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Service.Singleton
-public class DemoCommandHandler implements com.example.sshconsole.command.CommandHandler {
+public class DemoCommandHandler implements io.github.jtpadilla.sshdagent.command.CommandHandler {
 
     private static final List<String> COMMANDS =
             List.of("help", "echo", "time", "whoami", "quit");
 
     @Override
-    public com.example.sshconsole.command.CommandResult execute(String who, String line) {
+    public io.github.jtpadilla.sshdagent.command.CommandResult execute(String who, String line) {
         String trimmed = line.strip();
         if (trimmed.isEmpty()) {
-            return com.example.sshconsole.command.CommandResult.of("");
+            return io.github.jtpadilla.sshdagent.command.CommandResult.of("");
         }
 
         String[] parts = trimmed.split("\\s+", 2);
@@ -24,14 +24,14 @@ public class DemoCommandHandler implements com.example.sshconsole.command.Comman
         String args = parts.length > 1 ? parts[1] : "";
 
         return switch (cmd) {
-            case "help" -> com.example.sshconsole.command.CommandResult.of(
+            case "help" -> io.github.jtpadilla.sshdagent.command.CommandResult.of(
                     "Comandos: " + String.join(", ", COMMANDS));
-            case "echo" -> com.example.sshconsole.command.CommandResult.of(args);
-            case "time" -> com.example.sshconsole.command.CommandResult.of(
+            case "echo" -> io.github.jtpadilla.sshdagent.command.CommandResult.of(args);
+            case "time" -> io.github.jtpadilla.sshdagent.command.CommandResult.of(
                     LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
-            case "whoami" -> com.example.sshconsole.command.CommandResult.of(who);
-            case "quit", "exit" -> com.example.sshconsole.command.CommandResult.quit("Hasta luego.");
-            default -> com.example.sshconsole.command.CommandResult.of(
+            case "whoami" -> io.github.jtpadilla.sshdagent.command.CommandResult.of(who);
+            case "quit", "exit" -> io.github.jtpadilla.sshdagent.command.CommandResult.quit("Hasta luego.");
+            default -> io.github.jtpadilla.sshdagent.command.CommandResult.of(
                     "Comando desconocido: '" + cmd + "'. Escribe 'help'.");
         };
     }

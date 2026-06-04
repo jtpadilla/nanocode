@@ -24,7 +24,7 @@ java_library(
     ),
     plugins = [":helidon_codegen"],
     resources = ["src/main/resources/hostkey.pem"],
-    resource_strip_prefix = "java/lib/sshd/src/main/resources",
+    resource_strip_prefix = "java/sshdagent/src/main/resources",
     deps = [
         "@maven//:io_helidon_common_helidon_common",
         "@maven//:io_helidon_common_helidon_common_types",

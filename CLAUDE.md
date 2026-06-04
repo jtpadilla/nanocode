@@ -40,7 +40,7 @@ Two parallel entry points share `//java/lib/config` (env-var reading) and `//jav
 
 **`//java/result`** is sample output the agent produced (a UJI news scraper) — it has its own `Main` and `jsoup` dep but is not wired into the agents and can be ignored unless you're touching the demo.
 
-**`//java/lib/sshd`** currently contains only a `BUILD.bazel` whose `java_library` is named `format` (copy-paste from `lib/format`) with no sources. It is not referenced by anything; treat it as scaffolding for upcoming work, not as a working dep.
+**`//java/sshdagent`** is an embedded SSH console (Apache MINA SSHD) wired through the Helidon 4.x Service Registry: `@Service.*`-annotated classes (`SshServerService`, `ServicePasswordAuthenticator`, `ServiceShellFactory`, `DemoCredentialService`, `DemoCommandHandler`) are discovered at compile time by the `helidon_codegen` `java_plugin`. The `sshd` library holds the server; the `demo` binary (`com.example.sshconsole.Main`) boots the registry and listens on port 2222. Not wired into the agents above.
 
 ## Dependency management
 

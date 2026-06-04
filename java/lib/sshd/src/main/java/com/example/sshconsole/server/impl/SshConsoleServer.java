@@ -15,19 +15,17 @@ import java.io.IOException;
  */
 public class SshConsoleServer implements AutoCloseable {
 
-    public static Builder builder(CommandHandler handler) {
-        return new Builder(handler);
+    public static Builder builder() {
+        return new Builder();
     }
 
     public static final class Builder {
 
-        private final CommandHandler handler;
         private int port = 2222;
         private PasswordAuthenticator passwordAuth;
         private ShellFactory shellFactory;
 
-        private Builder(CommandHandler handler) {
-            this.handler = handler;
+        private Builder() {
         }
 
         public Builder port(int port) {

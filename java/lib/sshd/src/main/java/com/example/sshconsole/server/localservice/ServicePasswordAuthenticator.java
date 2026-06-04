@@ -1,4 +1,4 @@
-package com.example.sshconsole.server;
+package com.example.sshconsole.server.localservice;
 
 import com.example.sshconsole.auth.CredentialService;
 import io.helidon.service.registry.Service;

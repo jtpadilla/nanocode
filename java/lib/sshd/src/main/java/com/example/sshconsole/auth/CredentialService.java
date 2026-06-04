@@ -1,6 +1,6 @@
 package com.example.sshconsole.auth;
 
-import com.example.sshconsole.server.ServicePasswordAuthenticator;
+import com.example.sshconsole.server.localservice.ServicePasswordAuthenticator;
 import io.helidon.service.registry.Service;
 
 /**

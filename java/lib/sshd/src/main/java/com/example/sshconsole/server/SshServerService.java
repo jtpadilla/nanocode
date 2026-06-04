@@ -2,6 +2,8 @@ package com.example.sshconsole.server;
 
 import com.example.sshconsole.command.CommandHandler;
 import com.example.sshconsole.server.impl.SshConsoleServer;
+import com.example.sshconsole.server.localservice.ServicePasswordAuthenticator;
+import com.example.sshconsole.server.localservice.ServiceShellFactory;
 import io.helidon.service.registry.Service;
 
 import java.io.IOException;
@@ -25,8 +27,9 @@ class SshServerService {
     private final SshConsoleServer server;
 
     @Service.Inject
-    SshServerService(CommandHandler handler, ServicePasswordAuthenticator passwordAuth, ServiceShellFactory serviceShellFactory) {
-        this.server = SshConsoleServer.builder(handler)
+    SshServerService(ServicePasswordAuthenticator passwordAuth, ServiceShellFactory serviceShellFactory) {
+
+        this.server = SshConsoleServer.builder()
                 .port(2222)
                 .setPasswordAuth(passwordAuth)
                 .setServiceShellFactory(serviceShellFactory)

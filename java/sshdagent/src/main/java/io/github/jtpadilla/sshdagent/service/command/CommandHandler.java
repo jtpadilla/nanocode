@@ -1,4 +1,4 @@
-package io.github.jtpadilla.sshdagent.command;
+package io.github.jtpadilla.sshdagent.service.command;
 
 import io.helidon.service.registry.Service;
 
@@ -20,7 +20,7 @@ public interface CommandHandler {
      * Nunca debe lanzar excepciones de control de flujo: usa
      * {@link CommandResult#quit(String)} para cerrar la sesión.
      */
-    io.github.jtpadilla.sshdagent.command.CommandResult execute(String who, String line);
+    io.github.jtpadilla.sshdagent.service.command.CommandResult execute(String who, String line);
 
     /** Nombres de comandos disponibles, usados por JLine para autocompletar. */
     List<String> commandNames();

@@ -1,6 +1,6 @@
 package io.github.jtpadilla.sshdagent.server;
 
-import io.github.jtpadilla.sshdagent.command.CommandHandler;
+import io.github.jtpadilla.sshdagent.service.command.CommandHandler;
 import io.github.jtpadilla.sshdagent.server.impl.SshConsoleConfig;
 import io.github.jtpadilla.sshdagent.server.impl.SshConsoleInstance;
 import io.github.jtpadilla.sshdagent.server.localservice.ServicePasswordAuthenticator;

@@ -1,4 +1,4 @@
-package io.github.jtpadilla.sshdagent.command;
+package io.github.jtpadilla.sshdagent.service.command;
 
 /**
  * Resultado de ejecutar un comando. Inmutable, sin dependencias de framework.

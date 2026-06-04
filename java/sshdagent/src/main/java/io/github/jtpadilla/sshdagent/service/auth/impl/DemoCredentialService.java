@@ -1,6 +1,6 @@
-package io.github.jtpadilla.sshdagent.auth.impl;
+package io.github.jtpadilla.sshdagent.service.auth.impl;
 
-import io.github.jtpadilla.sshdagent.auth.CredentialService;
+import io.github.jtpadilla.sshdagent.service.auth.CredentialService;
 import io.helidon.service.registry.Service;
 
 import java.util.Map;

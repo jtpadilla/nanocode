@@ -1,7 +1,7 @@
 package io.github.jtpadilla.sshdagent.shell;
 
-import io.github.jtpadilla.sshdagent.command.CommandHandler;
-import io.github.jtpadilla.sshdagent.command.CommandResult;
+import io.github.jtpadilla.sshdagent.service.command.CommandHandler;
+import io.github.jtpadilla.sshdagent.service.command.CommandResult;
 import org.apache.sshd.server.Environment;
 import org.apache.sshd.server.ExitCallback;
 import org.apache.sshd.server.Signal;

@@ -1,6 +1,6 @@
 package io.github.jtpadilla.sshdagent.server.localservice;
 
-import io.github.jtpadilla.sshdagent.auth.CredentialService;
+import io.github.jtpadilla.sshdagent.service.auth.CredentialService;
 import io.helidon.service.registry.Service;
 import org.apache.sshd.server.auth.password.PasswordAuthenticator;
 import org.apache.sshd.server.session.ServerSession;

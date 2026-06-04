@@ -3,8 +3,8 @@ package io.github.jtpadilla.sshdagent.server;
 import io.github.jtpadilla.sshdagent.service.command.CommandHandler;
 import io.github.jtpadilla.sshdagent.server.impl.SshConsoleConfig;
 import io.github.jtpadilla.sshdagent.server.impl.SshConsoleInstance;
-import io.github.jtpadilla.sshdagent.server.localservice.ServicePasswordAuthenticator;
-import io.github.jtpadilla.sshdagent.server.localservice.ServiceShellFactory;
+import io.github.jtpadilla.sshdagent.server.adapter.ServicePasswordAuthenticator;
+import io.github.jtpadilla.sshdagent.server.adapter.ServiceShellFactory;
 import io.helidon.service.registry.Service;
 
 import java.io.IOException;

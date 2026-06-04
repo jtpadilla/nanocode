@@ -1,4 +1,4 @@
-package io.github.jtpadilla.sshdagent.server.localservice;
+package io.github.jtpadilla.sshdagent.server.adapter;
 
 import io.github.jtpadilla.sshdagent.service.auth.CredentialService;
 import io.helidon.service.registry.Service;

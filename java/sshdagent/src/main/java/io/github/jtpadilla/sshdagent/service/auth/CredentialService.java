@@ -1,6 +1,6 @@
 package io.github.jtpadilla.sshdagent.service.auth;
 
-import io.github.jtpadilla.sshdagent.server.localservice.ServicePasswordAuthenticator;
+import io.github.jtpadilla.sshdagent.server.adapter.ServicePasswordAuthenticator;
 import io.helidon.service.registry.Service;
 
 /**

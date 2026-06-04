@@ -1,5 +1,6 @@
 package io.github.jtpadilla.sshdagent.shell;
 
+import io.github.jtpadilla.sshdagent.format.Format;
 import io.github.jtpadilla.sshdagent.service.command.CommandHandler;
 import io.github.jtpadilla.sshdagent.service.command.CommandResult;
 import org.jline.reader.EndOfFileException;
@@ -38,17 +39,18 @@ final class Repl {
      */
     void run(BooleanSupplier running) {
 
-        terminal.writer().println("Bienvenido, " + username + ". Escribe 'help'.");
+        terminal.writer().println(Format.GREEN + "Bienvenido, " + username + ". Escribe 'help'." + Format.RESET);
+        terminal.writer().println(Format.sep(terminal.getSize().getColumns()));
         terminal.writer().flush();
 
-        String prompt = "[32m" + username + "@app>[0m ";
+        String prompt = Format.GREEN + username + "@app>" + Format.RESET + " ";
 
         while (running.getAsBoolean()) {
             String line;
             try {
                 line = reader.readLine(prompt);
             } catch (UserInterruptException e) {   // Ctrl-C
-                terminal.writer().println("^C");
+                terminal.writer().println(Format.YELLOW + "^C" + Format.RESET);
                 terminal.writer().flush();
                 continue;
             } catch (EndOfFileException e) {        // Ctrl-D
@@ -57,7 +59,7 @@ final class Repl {
 
             CommandResult result = handler.execute(username, line);
             if (result.output() != null && !result.output().isEmpty()) {
-                terminal.writer().println(result.output());
+                terminal.writer().println(Format.markdown(result.output()));
                 terminal.writer().flush();
             }
             if (result.exitSession()) {

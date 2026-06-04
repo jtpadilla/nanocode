@@ -25,10 +25,11 @@ class SshServerService {
     private final SshConsoleServer server;
 
     @Service.Inject
-    SshServerService(CommandHandler handler, ServicePasswordAuthenticator passwordAuth) {
+    SshServerService(CommandHandler handler, ServicePasswordAuthenticator passwordAuth, ServiceShellFactory serviceShellFactory) {
         this.server = SshConsoleServer.builder(handler)
                 .port(2222)
-                .passwordAuth(passwordAuth)
+                .setPasswordAuth(passwordAuth)
+                .setServiceShellFactory(serviceShellFactory)
                 .build();
     }
 

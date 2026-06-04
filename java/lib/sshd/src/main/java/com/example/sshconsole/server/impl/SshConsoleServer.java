@@ -1,7 +1,6 @@
 package com.example.sshconsole.server.impl;
 
 import com.example.sshconsole.command.CommandHandler;
-import com.example.sshconsole.shell.InteractiveShell;
 import org.apache.sshd.common.keyprovider.ClassLoadableResourceKeyPairProvider;
 import org.apache.sshd.common.keyprovider.KeyPairProvider;
 import org.apache.sshd.server.SshServer;
@@ -25,6 +24,7 @@ public class SshConsoleServer implements AutoCloseable {
         private final CommandHandler handler;
         private int port = 2222;
         private PasswordAuthenticator passwordAuth;
+        private ShellFactory shellFactory;
 
         private Builder(CommandHandler handler) {
             this.handler = handler;
@@ -40,8 +40,13 @@ public class SshConsoleServer implements AutoCloseable {
          * {@link PasswordAuthenticator} externo (p. ej. uno que consulte un
          * servicio de credenciales inyectado).
          */
-        public Builder passwordAuth(PasswordAuthenticator auth) {
+        public Builder setPasswordAuth(PasswordAuthenticator auth) {
             this.passwordAuth = auth;
+            return this;
+        }
+
+        public Builder setServiceShellFactory(ShellFactory shellFactory) {
+            this.shellFactory = shellFactory;
             return this;
         }
 
@@ -53,7 +58,7 @@ public class SshConsoleServer implements AutoCloseable {
             // Se configura el puerto por donde escuchara
             sshd.setPort(port);
 
-            // Se instsla el verificador de credenciales
+            // Se instala el verificador de credenciales
             if (passwordAuth == null) {
                 throw new IllegalStateException("Configura el autenticador de password.");
             }
@@ -68,8 +73,10 @@ public class SshConsoleServer implements AutoCloseable {
             );
             sshd.setKeyPairProvider(hostKeys);
 
-            // Una sesión interactiva por canal de shell.
-            ShellFactory shellFactory = channel -> new InteractiveShell(handler);
+            // Se instala el factory de sesiones
+            if (shellFactory == null) {
+                throw new IllegalStateException("Configura el factory de sesiones.");
+            }
             sshd.setShellFactory(shellFactory);
 
             return new SshConsoleServer(sshd);
